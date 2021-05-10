@@ -5,6 +5,8 @@ import java.util.*;
 class Customer {
     private final String name;
     private final Vector<Rental> rentals = new Vector<Rental>();
+    private int frequentRenterPoints = 0;
+    private double totalAmount = 0;
 
     public Customer(String newName) {
         name = newName;
@@ -19,8 +21,7 @@ class Customer {
     }
 
     public String statement() {
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
+
         Enumeration<Rental> enum_rentals = rentals.elements();
         StringBuilder result = new StringBuilder("Rental Record for " + this.getName() + "\n");
         result.append("\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n");
