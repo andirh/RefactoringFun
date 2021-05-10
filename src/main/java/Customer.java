@@ -23,19 +23,17 @@ class Customer {
     public String statement() {
 
         Enumeration<Rental> enum_rentals = rentals.elements();
-        StringBuilder result = new StringBuilder("Rental Record for " + this.getName() + "\n");
-        result.append("\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n");
 
-        calculateTotalAmount(enum_rentals, result);
-        //add footer lines
-        result.append("Amount owed is ").append(totalAmount).append("\n");
-        result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
-        return result.toString();
+        return "Rental Record for " + this.getName() + "\n" + "\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n" +
+                calculateTotalAmount(enum_rentals) +
+                //add footer lines
+                "Amount owed is " + totalAmount + "\n" +
+                "You earned " + frequentRenterPoints + " frequent renter points";
     }
 
-    private void calculateTotalAmount(Enumeration<Rental> enum_rentals, StringBuilder result) {
+    private String calculateTotalAmount(Enumeration<Rental> enum_rentals) {
+        StringBuilder substring = new StringBuilder();
         while (enum_rentals.hasMoreElements()) {
-
             Rental each = enum_rentals.nextElement();
             //determine amounts for each line
             double thisAmount = amountFor(each);
@@ -45,9 +43,10 @@ class Customer {
             if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) && each.getDaysRented() > 1)
                 frequentRenterPoints++;
             //show figures for this rental
-            result.append("\t").append(each.getMovie().getTitle()).append("\t").append("\t").append(each.getDaysRented()).append("\t").append(thisAmount).append("\n");
+            substring.append("\t").append(each.getMovie().getTitle()).append("\t").append("\t").append(each.getDaysRented()).append("\t").append(thisAmount).append("\n");
             totalAmount += thisAmount;
         }
+        return substring.toString();
     }
 
     private double amountFor(Rental each) {
