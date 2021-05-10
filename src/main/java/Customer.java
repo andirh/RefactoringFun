@@ -26,6 +26,14 @@ class Customer {
         StringBuilder result = new StringBuilder("Rental Record for " + this.getName() + "\n");
         result.append("\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n");
 
+        calculateTotalAmount(enum_rentals, result);
+        //add footer lines
+        result.append("Amount owed is ").append(totalAmount).append("\n");
+        result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
+        return result.toString();
+    }
+
+    private void calculateTotalAmount(Enumeration<Rental> enum_rentals, StringBuilder result) {
         while (enum_rentals.hasMoreElements()) {
             double thisAmount = 0;
             Rental each = enum_rentals.nextElement();
@@ -40,10 +48,6 @@ class Customer {
             result.append("\t").append(each.getMovie().getTitle()).append("\t").append("\t").append(each.getDaysRented()).append("\t").append(thisAmount).append("\n");
             totalAmount += thisAmount;
         }
-        //add footer lines
-        result.append("Amount owed is ").append(totalAmount).append("\n");
-        result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
-        return result.toString();
     }
 
     private double amountFor(Rental each) {
